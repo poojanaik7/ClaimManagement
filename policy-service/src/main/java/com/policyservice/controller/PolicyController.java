@@ -16,7 +16,7 @@ public class PolicyController {
     @Autowired
     PolicyService policyService;
 
-    @GetMapping("/insurancePolicy")
+    @GetMapping("/viewPolicy")
     public ResponseEntity<?> getPolicy(@RequestParam Integer policyNumber) {
         Policy policy = policyService.getPolicy(policyNumber);
         return ResponseEntity.ok(policy);
@@ -36,7 +36,7 @@ public class PolicyController {
 
     @GetMapping("/elligibleProviderBenifits")
     public ResponseEntity<?> getElligibleBenifits(@RequestParam Integer id) {
-        Iterable<Benefits> benefits = policyService.getElligibleBenifits(id);
+        Iterable<ProviderBenefits> benefits = policyService.getElligibleBenifits(id);
         return ResponseEntity.ok(benefits);
     }
 

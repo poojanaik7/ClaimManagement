@@ -1,4 +1,4 @@
-package com.policyservice.entity;
+package com.memberservice.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,8 +22,6 @@ public class MemberPolicy {
     private BigDecimal premiumAmount;
 
     private LocalDate premiumPaidtDate;
-
-
 
     public String getPolicyName() {
         return policyName;

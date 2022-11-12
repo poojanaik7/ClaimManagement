@@ -1,29 +1,18 @@
-package com.policyservice.entity;
+package com.memberservice.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
-public class MemberPolicy {
+public class MemberPolicyRequest {
 
-    @Id
     private Integer policyNumber;
-
     private String policyName;
-
     private Integer memberId;
-
-    private LocalDate subscriptionDate;
-
     private BigDecimal coverage;
-
     private BigDecimal premiumAmount;
-
-    private LocalDate premiumPaidtDate;
-
-
+    private Integer premiumPaymentFrequency;
+    private LocalDate subscriptionDate;
+    private LocalDate dueDate;
 
     public String getPolicyName() {
         return policyName;
@@ -49,22 +38,6 @@ public class MemberPolicy {
         this.memberId = memberId;
     }
 
-    public LocalDate getSubscriptionDate() {
-        return subscriptionDate;
-    }
-
-    public void setSubscriptionDate(LocalDate subscriptionDate) {
-        this.subscriptionDate = subscriptionDate;
-    }
-
-    public LocalDate getPremiumPaidtDate() {
-        return premiumPaidtDate;
-    }
-
-    public void setPremiumPaidtDate(LocalDate premiumPaidtDate) {
-        this.premiumPaidtDate = premiumPaidtDate;
-    }
-
     public BigDecimal getCoverage() {
         return coverage;
     }
@@ -79,5 +52,29 @@ public class MemberPolicy {
 
     public void setPremiumAmount(BigDecimal premiumAmount) {
         this.premiumAmount = premiumAmount;
+    }
+
+    public Integer getPremiumPaymentFrequency() {
+        return premiumPaymentFrequency;
+    }
+
+    public void setPremiumPaymentFrequency(Integer premiumPaymentFrequency) {
+        this.premiumPaymentFrequency = premiumPaymentFrequency;
+    }
+
+    public LocalDate getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public void setSubscriptionDate(LocalDate subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 }

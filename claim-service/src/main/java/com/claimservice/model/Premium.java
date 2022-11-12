@@ -1,25 +1,32 @@
-package com.policyservice.model;
+package com.claimservice.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
-public class MemberPolicyRequest {
+
+public class Premium {
+
+
+    private Integer id;
+
+    private BigDecimal coverage;
+
+    private BigDecimal premiumAmount;
+
+    private Integer premiumPaymentFrequency;
 
     private Integer policyNumber;
-    private String policyName;
-    private Integer memberId;
-    private BigDecimal coverage;
-    private BigDecimal premiumAmount;
-    private Integer premiumPaymentFrequency;
-    private LocalDate subscriptionDate;
-    private LocalDate dueDate;
 
-    public String getPolicyName() {
-        return policyName;
+    public Premium() {
     }
 
-    public void setPolicyName(String policyName) {
-        this.policyName = policyName;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getPolicyNumber() {
@@ -28,14 +35,6 @@ public class MemberPolicyRequest {
 
     public void setPolicyNumber(Integer policyNumber) {
         this.policyNumber = policyNumber;
-    }
-
-    public Integer getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Integer memberId) {
-        this.memberId = memberId;
     }
 
     public BigDecimal getCoverage() {
@@ -60,21 +59,5 @@ public class MemberPolicyRequest {
 
     public void setPremiumPaymentFrequency(Integer premiumPaymentFrequency) {
         this.premiumPaymentFrequency = premiumPaymentFrequency;
-    }
-
-    public LocalDate getSubscriptionDate() {
-        return subscriptionDate;
-    }
-
-    public void setSubscriptionDate(LocalDate subscriptionDate) {
-        this.subscriptionDate = subscriptionDate;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
     }
 }

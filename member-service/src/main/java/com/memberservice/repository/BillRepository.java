@@ -1,6 +1,6 @@
-package com.policyservice.repository;
+package com.memberservice.repository;
 
-import com.policyservice.entity.Bills;
+import com.memberservice.entity.Bills;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

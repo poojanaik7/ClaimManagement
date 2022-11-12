@@ -1,33 +1,24 @@
-package com.policyservice.entity;
+package com.claimservice.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "providers")
 public class Providers {
 
-    @Id
-    @Column(name = "provider_id")
+
     private Integer providerId;
 
-    @NotNull
     private String providerName;
 
-    @NotNull
     private String providerLocation;
 
-    @NotNull
-    @Column(name = "policy_number")
     private Integer policyNumber;
 
     private String providerData;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="provider_id" , referencedColumnName = "provider_id")
-    private List<ProviderBenefits> benefits = new ArrayList<>();
+    private List<ProviderBenefits> benefits;
 
     public Providers() {
     }

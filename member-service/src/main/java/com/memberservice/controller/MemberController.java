@@ -1,15 +1,15 @@
 package com.memberservice.controller;
 
 
-import com.memberservice.model.BillsResponse;
-import com.memberservice.model.SignupRequest;
+import com.memberservice.entity.Bills;
+import com.memberservice.entity.MemberPolicy;
+import com.memberservice.model.MemberPolicyRequest;
+import com.memberservice.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -20,16 +20,24 @@ public class MemberController {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    MemberService memberService;
+
     @GetMapping("/claimStatus")
     public String getClaimStatus() {
        String status = restTemplate.getForObject("http://CLAIM-SERVICE/claims/claimStatus",String.class);
        return status;
     }
 
-    @GetMapping("/viewBills")
-    public ResponseEntity<?> viewBills(@RequestParam Integer id) {
-        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
-        responseEntity = restTemplate.getForEntity("http://POLICY-SERVICE/policy/viewBills?memberId=id}",BillsResponse.class);
-        return responseEntity;
+    @PostMapping("/enrolPolicy")
+    public ResponseEntity<?> enrolPolicy(@RequestBody MemberPolicyRequest request) {
+        MemberPolicy memberPolicy = memberService.enrolPolicy(request);
+        return ResponseEntity.ok(memberPolicy);
+    }
+
+   @GetMapping("/viewBills")
+    public ResponseEntity<?> viewBills(@RequestParam Integer memberId) {
+       List<Bills> bills = memberService.viewBills(memberId);
+       return ResponseEntity.ok(bills);
     }
 }

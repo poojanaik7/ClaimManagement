@@ -1,15 +1,14 @@
 package com.policyservice.repository;
 
-import com.policyservice.entity.Benefits;
-import com.policyservice.entity.Policy;
+import com.policyservice.entity.ProviderBenefits;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface BenefitsRepository extends CrudRepository<Benefits, Integer> {
+public interface BenefitsRepository extends CrudRepository<ProviderBenefits, Integer> {
 
-    public List<Benefits> findByProviderId(Integer policyNumber);
+    public List<ProviderBenefits> findByProviderId(Integer policyNumber);
 
 }

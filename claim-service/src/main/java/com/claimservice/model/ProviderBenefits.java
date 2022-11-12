@@ -1,21 +1,18 @@
-package com.policyservice.entity;
+package com.claimservice.model;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity
-@Table(name = "benefits")
-public class Benefits {
+public class ProviderBenefits {
 
-    @Id
     private Integer benefitId;
 
     private String speciality;
 
     private String facility;
 
-    @Column(name = "provider_id")
     private Integer providerId;
 
     public Integer getBenefitId() {

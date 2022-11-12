@@ -1,16 +1,30 @@
 package com.claimservice.controller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.claimservice.entity.Claims;
+import com.claimservice.model.ClaimsRequest;
+import com.claimservice.service.ClaimsService;
+import com.netflix.discovery.converters.Auto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 @CrossOrigin
 @RestController
 @RequestMapping("claims")
 public class ClaimController {
 
+
+
+    @Autowired
+    ClaimsService claimsService;
+
+    @PostMapping("/submitClaim")
+    public ResponseEntity<?> submitClaim(@RequestBody ClaimsRequest request) {
+        Claims claims = claimsService.submitClaims(request);
+        return ResponseEntity.ok(claims);
+    }
 
     @GetMapping("/claimStatus")
     public String getClaimStatus() {
