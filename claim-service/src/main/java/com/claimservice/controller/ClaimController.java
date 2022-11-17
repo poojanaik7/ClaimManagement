@@ -4,18 +4,14 @@ package com.claimservice.controller;
 import com.claimservice.entity.Claims;
 import com.claimservice.model.ClaimsRequest;
 import com.claimservice.service.ClaimsService;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 @CrossOrigin
 @RestController
 @RequestMapping("claims")
 public class ClaimController {
-
-
 
     @Autowired
     ClaimsService claimsService;
@@ -26,9 +22,9 @@ public class ClaimController {
         return ResponseEntity.ok(claims);
     }
 
-    @GetMapping("/claimStatus")
-    public String getClaimStatus() {
-        String status = "Process";
-        return status;
+    @GetMapping("/viewClaimStatus")
+    public ResponseEntity<?> getClaimStatus() {
+        Iterable<Claims> claims = claimsService.viewClaimStatus();
+        return ResponseEntity.ok(claims);
     }
 }

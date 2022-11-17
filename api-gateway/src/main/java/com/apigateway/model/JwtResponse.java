@@ -1,4 +1,4 @@
-package com.memberservice.model;
+package com.apigateway.model;
 
 public class JwtResponse {
 	private Integer id;
@@ -6,7 +6,7 @@ public class JwtResponse {
 	private String email;
 	private String token;
 
-	public JwtResponse(String token,Integer id, String username, String email) {
+	public JwtResponse(String token, Integer id, String username, String email) {
 		this.token = token;
 		this.id = id;
 		this.username = username;
