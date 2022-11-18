@@ -19,7 +19,7 @@ public class Premium {
     private BigDecimal premiumAmount;
 
     @NotNull
-    private Integer premiumPaymentFrequency;
+    private String premiumPaymentFrequency;
 
     @NotNull
     @Column(name = "policy_number")
@@ -60,11 +60,11 @@ public class Premium {
         this.premiumAmount = premiumAmount;
     }
 
-    public Integer getPremiumPaymentFrequency() {
+    public String getPremiumPaymentFrequency() {
         return premiumPaymentFrequency;
     }
 
-    public void setPremiumPaymentFrequency(Integer premiumPaymentFrequency) {
+    public void setPremiumPaymentFrequency(String premiumPaymentFrequency) {
         this.premiumPaymentFrequency = premiumPaymentFrequency;
     }
 }

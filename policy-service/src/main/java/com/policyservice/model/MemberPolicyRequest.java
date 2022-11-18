@@ -10,7 +10,7 @@ public class MemberPolicyRequest {
     private Integer memberId;
     private BigDecimal coverage;
     private BigDecimal premiumAmount;
-    private Integer premiumPaymentFrequency;
+    private String premiumPaymentFrequency;
     private LocalDate subscriptionDate;
     private LocalDate dueDate;
 
@@ -54,11 +54,11 @@ public class MemberPolicyRequest {
         this.premiumAmount = premiumAmount;
     }
 
-    public Integer getPremiumPaymentFrequency() {
+    public String getPremiumPaymentFrequency() {
         return premiumPaymentFrequency;
     }
 
-    public void setPremiumPaymentFrequency(Integer premiumPaymentFrequency) {
+    public void setPremiumPaymentFrequency(String premiumPaymentFrequency) {
         this.premiumPaymentFrequency = premiumPaymentFrequency;
     }
 

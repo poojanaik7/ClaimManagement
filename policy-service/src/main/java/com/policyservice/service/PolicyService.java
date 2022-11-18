@@ -39,6 +39,10 @@ public class PolicyService {
         return providersRepository.findByPolicyNumber(policyNumber);
     }
 
+    public Iterable<Providers> getChainOfProvider() {
+        return providersRepository.findAll();
+    }
+
     public Iterable<ProviderBenefits> getElligibleBenifits(Integer id) {
         return benefitsRepository.findByProviderId(id);
     }

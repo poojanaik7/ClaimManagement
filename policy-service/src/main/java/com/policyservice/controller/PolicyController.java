@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/policy")
 public class PolicyController {
 
@@ -31,6 +32,12 @@ public class PolicyController {
     @GetMapping("/chainOfProvider")
     public ResponseEntity<?> getChainOfProvider(@RequestParam Integer policyNumber) {
         Iterable<Providers> providers = policyService.getChainOfProvider(policyNumber);
+        return ResponseEntity.ok(providers);
+    }
+
+    @GetMapping("/viewChainOfProvider")
+    public ResponseEntity<?> chainOfProvider() {
+        Iterable<Providers> providers = policyService.getChainOfProvider();
         return ResponseEntity.ok(providers);
     }
 
