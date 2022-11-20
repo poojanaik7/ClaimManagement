@@ -9,10 +9,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,20 +22,20 @@ public class ClaimsService {
     RestTemplate restTemplate;
 
     public Claims submitClaims(ClaimsRequest request) {
-        Double claimId = Math.random();
-
+        UUID claimId = UUID.randomUUID();
         Map<String, Integer> policyParams = new HashMap<>();
         Map<String, Integer> params = new HashMap<>();
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<?> entity = new HttpEntity<>(headers);
-        policyParams.put("policyNumber",request.getPolicyNumber());
         params.put("memberId",request.getMemberId());
-        ResponseEntity<Policy> policyResponseEntity = restTemplate.exchange("http://POLICY-SERVICE/policy/viewPolicy?policyNumber={policyNumber}", HttpMethod.GET,entity, Policy.class,policyParams);
         ResponseEntity<List<Bills>> response = restTemplate.exchange("http://POLICY-SERVICE/policy/viewBills?memberId={memberId}", HttpMethod.GET,entity, new ParameterizedTypeReference<List<Bills>>() {},params);
+        Integer policyNumber = response.getBody().get(0).getPolicyNumber();
+        policyParams.put("policyNumber",policyNumber);
+        ResponseEntity<Policy> policyResponseEntity = restTemplate.exchange("http://POLICY-SERVICE/policy/viewPolicy?policyNumber={policyNumber}", HttpMethod.GET,entity, Policy.class,policyParams);
         String status = isApplicable(policyResponseEntity.getBody(),request,response.getBody().get(0));
 
-        Claims claims = new Claims(claimId,request.getPolicyNumber(),request.getPolicyName(),request.getMemberId(),request.getProviderId(),
+        Claims claims = new Claims(claimId,request.getPolicyNumber(),request.getMemberId(),request.getProviderId(),
                 request.getProviderName(),request.getBenefitsAvailed(),request.getBillAmount(),request.getClaimAmount(),request.getClaimDate(),status);
         Claims claim = claimsRepository.save(claims);
 

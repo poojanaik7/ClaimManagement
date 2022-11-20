@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/")
 public class AuthController {
 
     public void corsAccess(){}

@@ -6,7 +6,6 @@ import java.time.LocalDate;
 public class ClaimsRequest {
 
     private Integer policyNumber;
-    private String policyName;
     private Integer memberId;
     private Integer providerId;
     private String providerName;
@@ -21,14 +20,6 @@ public class ClaimsRequest {
 
     public void setPolicyNumber(Integer policyNumber) {
         this.policyNumber = policyNumber;
-    }
-
-    public String getPolicyName() {
-        return policyName;
-    }
-
-    public void setPolicyName(String policyName) {
-        this.policyName = policyName;
     }
 
     public Integer getMemberId() {

@@ -28,6 +28,10 @@ public class Policy {
     @JoinColumn(name = "policy_number", referencedColumnName = "policy_number")
     private List<PolicyBenefits> policyBenefits = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "policy_number", referencedColumnName = "policy_number")
+    private List<TopUp> topUp;
+
     public Policy() {
     }
 
@@ -69,5 +73,13 @@ public class Policy {
 
     public void setPolicyBenefits(List<PolicyBenefits> policyBenefits) {
         this.policyBenefits = policyBenefits;
+    }
+
+    public List<TopUp> getTopUp() {
+        return topUp;
+    }
+
+    public void setTopUp(List<TopUp> topUp) {
+        this.topUp = topUp;
     }
 }

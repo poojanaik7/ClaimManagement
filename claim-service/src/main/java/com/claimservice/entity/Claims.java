@@ -6,15 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 public class Claims {
 
     @Id
-    private Double claimId;
+    private UUID claimId;
 
     private Integer policyNumber;
-    private String policyName;
     private Integer memberId;
     private Integer providerId;
     private String providerName;
@@ -27,10 +27,9 @@ public class Claims {
     public Claims() {
     }
 
-    public Claims(Double claimId, Integer policyNumber, String policyName, Integer memberId, Integer providerId, String providerName, String benefitsAvailed, BigDecimal billAmount, BigDecimal claimAmount, LocalDate claimDate, String claimStatus) {
+    public Claims(UUID claimId, Integer policyNumber, Integer memberId, Integer providerId, String providerName, String benefitsAvailed, BigDecimal billAmount, BigDecimal claimAmount, LocalDate claimDate, String claimStatus) {
         this.claimId = claimId;
         this.policyNumber = policyNumber;
-        this.policyName = policyName;
         this.memberId = memberId;
         this.providerId = providerId;
         this.providerName = providerName;
@@ -49,11 +48,11 @@ public class Claims {
         this.claimStatus = claimStatus;
     }
 
-    public Double getClaimId() {
+    public UUID getClaimId() {
         return claimId;
     }
 
-    public void setClaimId(Double claimId) {
+    public void setClaimId(UUID claimId) {
         this.claimId = claimId;
     }
 
@@ -63,14 +62,6 @@ public class Claims {
 
     public void setPolicyNumber(Integer policyNumber) {
         this.policyNumber = policyNumber;
-    }
-
-    public String getPolicyName() {
-        return policyName;
-    }
-
-    public void setPolicyName(String policyName) {
-        this.policyName = policyName;
     }
 
     public Integer getMemberId() {

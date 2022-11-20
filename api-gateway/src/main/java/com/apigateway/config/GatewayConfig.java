@@ -25,6 +25,10 @@ public class GatewayConfig {
                 .route("POLICY-SERVICE", r -> r.path("/policy/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://POLICY-SERVICE"))
+
+                .route("CLAIM-SERVICE", r -> r.path("/claims/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("lb://CLAIM-SERVICE"))
                 .build();
     }
 

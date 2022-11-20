@@ -5,10 +5,10 @@ import com.policyservice.model.MemberPolicyRequest;
 import com.policyservice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class PolicyService {
@@ -48,6 +48,7 @@ public class PolicyService {
     }
 
     public MemberPolicy enrolPolicy(MemberPolicyRequest request) {
+        MemberPolicy memPolicy = null;
         Policy policy = policyRepository.findById(request.getPolicyNumber()).get();
         LocalDate policyStartDate = request.getSubscriptionDate();
         LocalDate nextPremiumDate = policyStartDate.plusYears(1l);
@@ -60,7 +61,18 @@ public class PolicyService {
         memberPolicy.setCoverage(request.getCoverage());
         memberPolicy.setPremiumAmount(request.getPremiumAmount());
         memberPolicy.setPremiumPaidtDate(policyStartDate);
-        MemberPolicy memPolicy = memberPolicyRepository.save(memberPolicy);
+        List<MemberPolicy> memberPolicyList = memberPolicyRepository.findByMemberId(request.getMemberId());
+        if( !CollectionUtils.isEmpty(memberPolicyList)){
+            Optional<MemberPolicy> memberPolicyOptional = memberPolicyList.stream()
+                    .filter(mp -> mp.getPolicyNumber() == request.getPolicyNumber() && policyStartDate.isAfter(mp.getPremiumPaidtDate().plusYears(1l).plusDays(15l)))
+                    .findAny();
+            if (memberPolicyOptional.isPresent()) {
+                memPolicy = memberPolicyRepository.save(memberPolicy);
+            }
+        }
+        else{
+            memPolicy = memberPolicyRepository.save(memberPolicy);
+        }
         if(Objects.nonNull(memberPolicy)){
             billRepository.save(new Bills(memberPolicy.getPolicyNumber(),memberPolicy.getPremiumPaidtDate(),premiumDueDate,1,memberPolicy.getPremiumAmount(),memberPolicy.getCoverage(),nextPremiumDate,memberPolicy.getMemberId()));
         }
