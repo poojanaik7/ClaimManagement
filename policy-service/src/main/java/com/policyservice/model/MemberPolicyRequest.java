@@ -13,6 +13,8 @@ public class MemberPolicyRequest {
     private String premiumPaymentFrequency;
     private LocalDate subscriptionDate;
     private LocalDate dueDate;
+    private BigDecimal topUpCoverage;
+    private BigDecimal topUpPremiumAmount;
 
     public String getPolicyName() {
         return policyName;
@@ -76,5 +78,21 @@ public class MemberPolicyRequest {
 
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public BigDecimal getTopUpCoverage() {
+        return topUpCoverage;
+    }
+
+    public void setTopUpCoverage(BigDecimal topUpCoverage) {
+        this.topUpCoverage = topUpCoverage;
+    }
+
+    public BigDecimal getTopUpPremiumAmount() {
+        return topUpPremiumAmount;
+    }
+
+    public void setTopUpPremiumAmount(BigDecimal topUpPremiumAmount) {
+        this.topUpPremiumAmount = topUpPremiumAmount;
     }
 }

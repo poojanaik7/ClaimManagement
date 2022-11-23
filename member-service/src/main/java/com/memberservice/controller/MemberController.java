@@ -108,7 +108,7 @@ public class MemberController {
         return ResponseEntity.ok(memberPolicy);
     }
 
-    @GetMapping("/viewBills")
+    @RequestMapping(value = "/viewBills", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> viewBills(@RequestParam Integer memberId) {
         Map<String, Integer> params = new HashMap<>();
         HttpHeaders headers = new HttpHeaders();
@@ -118,5 +118,11 @@ public class MemberController {
         ResponseEntity<?> response = restTemplate.exchange("http://POLICY-SERVICE/policy/viewBills?memberId={memberId}", HttpMethod.GET, entity, new ParameterizedTypeReference<List<BillsResponse>>() {
         }, memberId);
         return response;
+    }
+
+    @RequestMapping(value = "/submitClaim", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> submitClaim(@RequestBody ClaimsRequest claimsRequest) {
+        Claims claims = restTemplate.postForObject("http://CLAIM-SERVICE/claims/submitClaim", claimsRequest, Claims.class);
+        return ResponseEntity.ok(claims);
     }
 }

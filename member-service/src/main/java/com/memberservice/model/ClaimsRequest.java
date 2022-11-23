@@ -1,21 +1,9 @@
-package com.claimservice.entity;
+package com.memberservice.model;
 
-import com.sun.xml.bind.v2.model.core.ID;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Entity
-public class Claims {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer claimId;
+public class ClaimsRequest {
 
     private Integer policyNumber;
     private Integer memberId;
@@ -25,38 +13,6 @@ public class Claims {
     private BigDecimal billAmount;
     private BigDecimal claimAmount;
     private LocalDate claimDate;
-    private String claimStatus;
-
-    public Claims() {
-    }
-
-    public Claims(Integer policyNumber, Integer memberId, Integer providerId, String providerName, String benefitsAvailed, BigDecimal billAmount, BigDecimal claimAmount, LocalDate claimDate, String claimStatus) {
-        this.policyNumber = policyNumber;
-        this.memberId = memberId;
-        this.providerId = providerId;
-        this.providerName = providerName;
-        this.benefitsAvailed = benefitsAvailed;
-        this.billAmount = billAmount;
-        this.claimAmount = claimAmount;
-        this.claimDate = claimDate;
-        this.claimStatus = claimStatus;
-    }
-
-    public String getClaimStatus() {
-        return claimStatus;
-    }
-
-    public void setClaimStatus(String claimStatus) {
-        this.claimStatus = claimStatus;
-    }
-
-    public Integer getClaimId() {
-        return claimId;
-    }
-
-    public void setClaimId(Integer claimId) {
-        this.claimId = claimId;
-    }
 
     public Integer getPolicyNumber() {
         return policyNumber;

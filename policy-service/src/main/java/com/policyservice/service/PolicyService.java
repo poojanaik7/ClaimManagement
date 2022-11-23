@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class PolicyService {
@@ -47,6 +50,11 @@ public class PolicyService {
         return benefitsRepository.findByProviderId(id);
     }
 
+    public BigDecimal getElligibleClaimAmount(Integer id) {
+        List<MemberPolicy> memberPolicies = memberPolicyRepository.findByMemberId(id);
+        return memberPolicies.get(0).getCoverage();
+    }
+
     public MemberPolicy enrolPolicy(MemberPolicyRequest request) {
         MemberPolicy memPolicy = null;
         Policy policy = policyRepository.findById(request.getPolicyNumber()).get();
@@ -62,24 +70,29 @@ public class PolicyService {
         memberPolicy.setPremiumAmount(request.getPremiumAmount());
         memberPolicy.setPremiumPaidtDate(policyStartDate);
         List<MemberPolicy> memberPolicyList = memberPolicyRepository.findByMemberId(request.getMemberId());
-        if( !CollectionUtils.isEmpty(memberPolicyList)){
+        if (!CollectionUtils.isEmpty(memberPolicyList)) {
             Optional<MemberPolicy> memberPolicyOptional = memberPolicyList.stream()
-                    .filter(mp -> mp.getPolicyNumber() == request.getPolicyNumber() && policyStartDate.isAfter(mp.getPremiumPaidtDate().plusYears(1l).plusDays(15l)))
+                    .filter(mp -> (mp.getPolicyNumber() == request.getPolicyNumber()
+                            && policyStartDate.isAfter(mp.getPremiumPaidtDate().plusYears(1l).plusDays(15l))
+                            || mp.getPolicyNumber() != request.getPolicyNumber()))
                     .findAny();
             if (memberPolicyOptional.isPresent()) {
                 memPolicy = memberPolicyRepository.save(memberPolicy);
             }
+            if (Objects.nonNull(memPolicy)) {
+                billRepository.save(new Bills(memberPolicy.getPolicyNumber(), memberPolicy.getPremiumPaidtDate(), premiumDueDate, 1, memberPolicy.getPremiumAmount(), memberPolicy.getCoverage(), nextPremiumDate, memberPolicy.getMemberId()));
+            }
         }
-        else{
-            memPolicy = memberPolicyRepository.save(memberPolicy);
+        if (CollectionUtils.isEmpty(memberPolicyList)) {
+            memberPolicyRepository.save(memberPolicy);
+            billRepository.save(new Bills(memberPolicy.getPolicyNumber(), memberPolicy.getPremiumPaidtDate(), premiumDueDate, 1, memberPolicy.getPremiumAmount(), memberPolicy.getCoverage(), nextPremiumDate, memberPolicy.getMemberId()));
         }
-        if(Objects.nonNull(memberPolicy)){
-            billRepository.save(new Bills(memberPolicy.getPolicyNumber(),memberPolicy.getPremiumPaidtDate(),premiumDueDate,1,memberPolicy.getPremiumAmount(),memberPolicy.getCoverage(),nextPremiumDate,memberPolicy.getMemberId()));
-        }
+
+
         return memPolicy;
     }
 
-    public List<Bills> viewBills(Integer memberId){
+    public List<Bills> viewBills(Integer memberId) {
         return billRepository.findByMemberId(memberId);
     }
 }

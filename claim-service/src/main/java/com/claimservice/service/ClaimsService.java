@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -22,7 +23,6 @@ public class ClaimsService {
     RestTemplate restTemplate;
 
     public Claims submitClaims(ClaimsRequest request) {
-        UUID claimId = UUID.randomUUID();
         Map<String, Integer> policyParams = new HashMap<>();
         Map<String, Integer> params = new HashMap<>();
         HttpHeaders headers = new HttpHeaders();
@@ -30,17 +30,18 @@ public class ClaimsService {
         HttpEntity<?> entity = new HttpEntity<>(headers);
         params.put("memberId",request.getMemberId());
         ResponseEntity<List<Bills>> response = restTemplate.exchange("http://POLICY-SERVICE/policy/viewBills?memberId={memberId}", HttpMethod.GET,entity, new ParameterizedTypeReference<List<Bills>>() {},params);
-        Integer policyNumber = response.getBody().get(0).getPolicyNumber();
-        policyParams.put("policyNumber",policyNumber);
-        ResponseEntity<Policy> policyResponseEntity = restTemplate.exchange("http://POLICY-SERVICE/policy/viewPolicy?policyNumber={policyNumber}", HttpMethod.GET,entity, Policy.class,policyParams);
-        String status = isApplicable(policyResponseEntity.getBody(),request,response.getBody().get(0));
+        if(!CollectionUtils.isEmpty(response.getBody())) {
+            Integer policyNumber = response.getBody().get(0).getPolicyNumber();
+            policyParams.put("policyNumber", policyNumber);
+            ResponseEntity<Policy> policyResponseEntity = restTemplate.exchange("http://POLICY-SERVICE/policy/viewPolicy?policyNumber={policyNumber}", HttpMethod.GET, entity, Policy.class, policyParams);
+            String status = isApplicable(policyResponseEntity.getBody(), request, response.getBody().get(0));
 
-        Claims claims = new Claims(claimId,request.getPolicyNumber(),request.getMemberId(),request.getProviderId(),
-                request.getProviderName(),request.getBenefitsAvailed(),request.getBillAmount(),request.getClaimAmount(),request.getClaimDate(),status);
-        Claims claim = claimsRepository.save(claims);
-
-
-        return claim;
+            Claims claims = new Claims(request.getPolicyNumber(), request.getMemberId(), request.getProviderId(),
+                    request.getProviderName(), request.getBenefitsAvailed(), request.getBillAmount(), request.getClaimAmount(), request.getClaimDate(), status);
+            Claims claim = claimsRepository.save(claims);
+            return claim;
+        }
+        return null;
     }
 
     public String isApplicable(Policy policy,ClaimsRequest request,Bills billResponse){
@@ -57,7 +58,7 @@ public class ClaimsService {
         return  status;
     }
 
-    public Iterable<Claims> viewClaimStatus(){
-       return claimsRepository.findAll();
+    public Iterable<Claims> viewClaimStatus(Integer memberId){
+       return claimsRepository.findByMemberId(memberId);
     }
 }

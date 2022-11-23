@@ -1,6 +1,4 @@
-package com.claimservice.entity;
-
-import com.sun.xml.bind.v2.model.core.ID;
+package com.memberservice.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,15 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Entity
 public class Claims {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer claimId;
 
+    private Integer claimId;
     private Integer policyNumber;
     private Integer memberId;
     private Integer providerId;
